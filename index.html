@@ -1,44 +1,35 @@
-<section id="result-section">
-  <!-- Automatically load results.xlsx when the page loads -->
-  <input type="hidden" id="file-input" value="results.xlsx" />
-  <input type="text" id="search" placeholder="Search by name..." />
-  <table id="result-table">
-    <thead>
-      <tr>
-        <th>Rank</th>
-        <th>Name</th>
-        <th>GPA</th>
-        <th>CGPA</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Rows will be dynamically added -->
-    </tbody>
-  </table>
-</section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Result Viewer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Student Result Viewer</h1>
+  </header>
 
-<script>
-  window.onload = function() {
-    // Automatically trigger the file load when the page loads
-    const fileInput = document.getElementById("file-input");
-    const filePath = fileInput.value;
+  <section id="result-section">
+    <!-- Input field to search by index number -->
+    <input type="text" id="search" placeholder="Search by index number..." onkeyup="searchTable()" />
+    <table id="result-table">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Name</th>
+          <th>GPA</th>
+          <th>CGPA</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Rows will be dynamically added here -->
+      </tbody>
+    </table>
+  </section>
 
-    // Manually load the file if it's a static file in the directory
-    if (filePath === "results.xlsx") {
-      const file = new File([""], "results.xlsx", { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        const data = new Uint8Array(event.target.result);
-        const workbook = XLSX.read(data, { type: "array" });
-        const sheetName = workbook.SheetNames[0];
-        const worksheet = workbook.Sheets[sheetName];
-        const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-
-        populateTable(jsonData);
-      };
-
-      reader.readAsArrayBuffer(file);
-    }
-  };
-</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
