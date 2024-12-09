@@ -1,35 +1,37 @@
-// script.js
-document.addEventListener('DOMContentLoaded', () => {
-    fetch('results.csv') // Path to your CSV file
-        .then(response => response.text())
-        .then(data => populateTable(data));
-});
+// Function to fetch and populate the table
+function populateTable() {
+  const tableBody = document.querySelector("#result-table tbody"); // Get the table body
 
-function populateTable(csvData) {
-    const rows = csvData.split('\n').slice(1); // Skip header
-    const tbody = document.querySelector('#result-table tbody');
-    rows.forEach(row => {
-        const cols = row.split(',');
-        const tr = document.createElement('tr');
-        cols.forEach(col => {
-            const td = document.createElement('td');
-            td.textContent = col.trim();
-            tr.appendChild(td);
+  // Fetch the CSV file
+  fetch("results.csv")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to fetch the file. Please check the file path.");
+      }
+      return response.text(); // Parse response as text
+    })
+    .then((data) => {
+      const rows = data.trim().split("\n"); // Split CSV data into rows
+
+      rows.forEach((row, index) => {
+        const cells = row.split(","); // Split each row into cells (assuming comma-separated values)
+        const newRow = document.createElement("tr"); // Create a new table row
+
+        // Add cells to the row
+        cells.forEach((cell) => {
+          const newCell = document.createElement("td");
+          newCell.textContent = cell.trim(); // Add plain text to the cell
+          newRow.appendChild(newCell);
         });
-        tbody.appendChild(tr);
+
+        // Append row to table body
+        tableBody.appendChild(newRow);
+      });
+    })
+    .catch((error) => {
+      console.error("Error loading data:", error.message);
     });
 }
 
-function searchTable() {
-    const input = document.getElementById('search');
-    const filter = input.value.toLowerCase();
-    const rows = document.querySelectorAll('#result-table tbody tr');
-    rows.forEach(row => {
-        const cells = row.querySelectorAll('td');
-        if (cells[1].textContent.toLowerCase().includes(filter)) {
-            row.style.display = '';
-        } else {
-            row.style.display = 'none';
-        }
-    });
-}
+// Call the function on page load
+document.addEventListener("DOMContentLoaded", populateTable);
