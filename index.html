@@ -1,33 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Result Viewer</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Result Viewer</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="script.js"></script>
 </head>
 <body>
-    <header>
-        <h1>Student Result Viewer</h1>
-    </header>
-    <section id="result-section">
-        <input type="text" id="search" placeholder="Search by name..." onkeyup="searchTable()">
-        <table id="result-table">
-            <thead>
-                <tr>
-                    <th>Rank</th>
-                    <th>Name</th>
-                    <th>GPA</th>
-                    <th>CGPA</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Data rows will be dynamically added here -->
-            </tbody>
-        </table>
-    </section>
-    <script src="script.js"></script>
+  <header>
+    <h1>Student Result Viewer</h1>
+  </header>
+  <section id="result-section">
+    <input type="file" id="file-input" accept=".xlsx" />
+    <input type="text" id="search" placeholder="Search by name..." />
+    <table id="result-table">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Name</th>
+          <th>GPA</th>
+          <th>CGPA</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Rows will be dynamically added -->
+      </tbody>
+    </table>
+  </section>
 </body>
 </html>
