@@ -1,40 +1,44 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 20px;
+document.getElementById("file-input").addEventListener("change", handleFile);
+
+function handleFile(event) {
+  const file = event.target.files[0];
+  const reader = new FileReader();
+
+  reader.onload = (e) => {
+    const data = new Uint8Array(e.target.result);
+    const workbook = XLSX.read(data, { type: "array" });
+    const sheetName = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[sheetName];
+    const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+    populateTable(jsonData);
+  };
+
+  reader.readAsArrayBuffer(file);
 }
 
-h1 {
-  text-align: center;
-  color: #333;
+function populateTable(data) {
+  const tableBody = document.querySelector("#result-table tbody");
+  tableBody.innerHTML = "";
+
+  data.forEach((row, index) => {
+    if (index === 0) return; // Skip header row
+    const tr = document.createElement("tr");
+    row.forEach((cell) => {
+      const td = document.createElement("td");
+      td.textContent = cell || "";
+      tr.appendChild(td);
+    });
+    tableBody.appendChild(tr);
+  });
 }
 
-#result-section {
-  max-width: 800px;
-  margin: 0 auto;
-}
+document.getElementById("search").addEventListener("input", function () {
+  const searchValue = this.value.toLowerCase();
+  const rows = document.querySelectorAll("#result-table tbody tr");
 
-input[type="file"], input[type="text"] {
-  display: block;
-  width: 100%;
-  max-width: 400px;
-  margin: 10px auto;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-th, td {
-  padding: 10px;
-  border: 1px solid #ccc;
-}
-
-th {
-  background-color: #f4f4f4;
-  text-align: left;
-}
+  rows.forEach(row => {
+    const nameCell = row.cells[1]?.textContent.toLowerCase();
+    row.style.display = nameCell && nameCell.includes(searchValue) ? "" : "none";
+  });
+});
