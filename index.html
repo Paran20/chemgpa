@@ -1,36 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Result Viewer</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Result Viewer</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
-  <header>
-    <h1>Student Result Viewer</h1>
-  </header>
+    <header>
+        <h1>Student Result Viewer</h1>
+    </header>
+    
+    <section id="result-section">
+        <!-- Input field to search -->
+        <input type="text" id="search" placeholder="Search by name..." onkeyup="searchTable()" />
+        
+        <!-- Table for displaying results -->
+        <table id="results">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Name</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be dynamically added here -->
+            </tbody>
+        </table>
+    </section>
 
-  <section id="result-section">
-    <!-- Input field to search by index number -->
-    <input type="text" id="search" placeholder="Search by index number..." onkeyup="searchTable()" />
-   <table id="results">
-    <thead>
-        <tr>
-            <th>Rank</th>
-            <th>Name</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!-- Rows will be dynamically added here -->
-    </tbody>
-</table>
-
-     
-      
-  </section>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
