@@ -1,9 +1,10 @@
+let excelData = []; // Store the parsed Excel data
+
 document.addEventListener('DOMContentLoaded', () => {
     // Fetch and parse the Excel file
     fetch('results.xlsx')
         .then(response => response.arrayBuffer())
         .then(data => {
-            // Read the Excel file
             const workbook = XLSX.read(data, { type: 'array' });
 
             // Get the first sheet
@@ -11,59 +12,51 @@ document.addEventListener('DOMContentLoaded', () => {
             const worksheet = workbook.Sheets[sheetName];
 
             // Convert the sheet to JSON
-            const jsonData = XLSX.utils.sheet_to_json(worksheet);
-            console.log(jsonData);
-
-            // Populate the table with the parsed data
-            populateTable(jsonData);
+            excelData = XLSX.utils.sheet_to_json(worksheet);
+            console.log('Excel Data:', excelData);
         })
-        .catch(error => console.error('Error loading the Excel file:', error));
+        .catch(error => console.error('Error loading Excel file:', error));
 });
 
-function populateTable(data) {
-    const tableBody = document.getElementById('results').getElementsByTagName('tbody')[0];
-    tableBody.innerHTML = ''; // Clear existing table rows
-
-    data.forEach((row, index) => {
-        const tr = document.createElement('tr');
-
-        // Add rank (index + 1 for 1-based indexing)
-        const rank = document.createElement('td');
-        rank.textContent = index + 1;
-        tr.appendChild(rank);
-
-        // Add Name
-        const name = document.createElement('td');
-        name.textContent = row.Name || ''; // Replace 'Name' with your column name
-        tr.appendChild(name);
-
-        // Add Score (or any other field from your Excel)
-        const score = document.createElement('td');
-        score.textContent = row.Score || ''; // Replace 'Score' with your column name
-        tr.appendChild(score);
-
-        tableBody.appendChild(tr);
-    });
-}
-
-// Search Functionality
-function searchTable() {
-    const input = document.getElementById('search');
-    const filter = input.value.toLowerCase();
+// Function to search data by index number
+function searchData() {
+    const indexInput = document.getElementById('index-input').value.trim();
     const table = document.getElementById('results');
-    const rows = table.getElementsByTagName('tr');
+    const headerRow = document.getElementById('header-row');
+    const dataRow = document.getElementById('data-row');
 
-    for (let i = 1; i < rows.length; i++) {
-        const cells = rows[i].getElementsByTagName('td');
-        let match = false;
+    // Clear previous data
+    headerRow.innerHTML = '';
+    dataRow.innerHTML = '';
 
-        for (let j = 0; j < cells.length; j++) {
-            if (cells[j].textContent.toLowerCase().includes(filter)) {
-                match = true;
-                break;
-            }
-        }
+    if (!indexInput) {
+        alert('Please enter an index number!');
+        table.style.display = 'none';
+        return;
+    }
 
-        rows[i].style.display = match ? '' : 'none';
+    // Find the matching row based on index number
+    const matchingRow = excelData.find(row => row['Index Number'] == indexInput);
+
+    if (matchingRow) {
+        // Populate table headers dynamically
+        Object.keys(matchingRow).forEach(key => {
+            const th = document.createElement('th');
+            th.textContent = key;
+            headerRow.appendChild(th);
+        });
+
+        // Populate table row dynamically
+        Object.values(matchingRow).forEach(value => {
+            const td = document.createElement('td');
+            td.textContent = value;
+            dataRow.appendChild(td);
+        });
+
+        // Show the table
+        table.style.display = 'table';
+    } else {
+        alert('No data found for the provided index number!');
+        table.style.display = 'none';
     }
 }
