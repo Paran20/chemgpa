@@ -1,6 +1,6 @@
 // Load the data from the results.xlsx file
 function loadData(filePath) {
-  const fileInput = document.getElementById("file-input");
+  const fileInput = document.getElementById("results.xlsx");
   const file = fileInput.files[0];
 
   const reader = new FileReader();
@@ -19,7 +19,7 @@ function loadData(filePath) {
 
 // Populate the table with data from the Excel file
 function populateTable(data) {
-  const tableBody = document.getElementById("result-table").getElementsByTagName("tbody")[0];
+  const tableBody = document.getElementById("results.xlsx").getElementsByTagName("tbody")[0];
   tableBody.innerHTML = "";  // Clear existing table rows
 
   data.forEach((row, index) => {
@@ -52,7 +52,7 @@ function populateTable(data) {
 // Search function that filters rows based on the input value
 function searchTable() {
   const searchInput = document.getElementById("search").value.toLowerCase();
-  const table = document.getElementById("result-table");
+  const table = document.getElementById("results.xlsx");
   const rows = table.getElementsByTagName("tr");
 
   for (let i = 1; i < rows.length; i++) {
