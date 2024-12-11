@@ -32,12 +32,38 @@ function populateTable(data) {
         rank.textContent = index + 1;
         tr.appendChild(rank);
 
-        // Add Name (assuming the JSON data has a 'Name' field)
+        // Add Name
         const name = document.createElement('td');
-        name.textContent = row.Name || '';
+        name.textContent = row.Name || ''; // Replace 'Name' with your column name
         tr.appendChild(name);
 
-        // Add other fields as needed
+        // Add Score (or any other field from your Excel)
+        const score = document.createElement('td');
+        score.textContent = row.Score || ''; // Replace 'Score' with your column name
+        tr.appendChild(score);
+
         tableBody.appendChild(tr);
     });
+}
+
+// Search Functionality
+function searchTable() {
+    const input = document.getElementById('search');
+    const filter = input.value.toLowerCase();
+    const table = document.getElementById('results');
+    const rows = table.getElementsByTagName('tr');
+
+    for (let i = 1; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName('td');
+        let match = false;
+
+        for (let j = 0; j < cells.length; j++) {
+            if (cells[j].textContent.toLowerCase().includes(filter)) {
+                match = true;
+                break;
+            }
+        }
+
+        rows[i].style.display = match ? '' : 'none';
+    }
 }
