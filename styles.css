@@ -1,40 +1,44 @@
 body {
-  font-family: Arial, sans-serif;
-  margin: 20px;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
 }
 
-h1 {
-  text-align: center;
-  color: #333;
+header {
+    background-color: #0078d4;
+    color: white;
+    padding: 20px;
+    text-align: center;
 }
 
 #result-section {
-  max-width: 800px;
-  margin: 0 auto;
+    padding: 20px;
 }
 
-input[type="file"], input[type="text"] {
-  display: block;
-  width: 100%;
-  max-width: 400px;
-  margin: 10px auto;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+input#search {
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
 }
 
-th, td {
-  padding: 10px;
-  border: 1px solid #ccc;
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
 }
 
-th {
-  background-color: #f4f4f4;
-  text-align: left;
+table th {
+    background-color: #0078d4;
+    color: white;
 }
