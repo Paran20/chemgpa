@@ -3,30 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Result Viewer</title>
+    <title>Index Number Search</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
     <header>
-        <h1>Student Result Viewer</h1>
+        <h1>Search Data by Index Number</h1>
     </header>
     
+    <section id="search-section">
+        <!-- Input field for index number -->
+        <input type="text" id="index-input" placeholder="Enter Index Number..." />
+        <button onclick="searchData()">Search</button>
+    </section>
+
     <section id="result-section">
-        <!-- Input field to search -->
-        <input type="text" id="search" placeholder="Search by name..." onkeyup="searchTable()" />
-        
-        <!-- Table for displaying results -->
         <table id="results">
             <thead>
-                <tr>
-                    <th>Rank</th>
-                    <th>Name</th>
-                    <th>Score</th>
+                <tr id="header-row">
+                    <!-- Dynamic header will be added here -->
                 </tr>
             </thead>
             <tbody>
-                <!-- Rows will be dynamically added here -->
+                <tr id="data-row">
+                    <!-- Dynamic data will be added here -->
+                </tr>
             </tbody>
         </table>
     </section>
