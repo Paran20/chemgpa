@@ -14,19 +14,20 @@
   <section id="result-section">
     <!-- Input field to search by index number -->
     <input type="text" id="search" placeholder="Search by index number..." onkeyup="searchTable()" />
-    <table id="result-table">
-      <thead>
+   <table id="results">
+    <thead>
         <tr>
-          <th>Rank</th>
-          <th>Name</th>
-          <th>GPA</th>
-          <th>CGPA</th>
+            <th>Rank</th>
+            <th>Name</th>
         </tr>
-      </thead>
-      <tbody>
+    </thead>
+    <tbody>
         <!-- Rows will be dynamically added here -->
-      </tbody>
-    </table>
+    </tbody>
+</table>
+
+     
+      
   </section>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
