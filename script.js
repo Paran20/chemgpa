@@ -5,7 +5,7 @@ function readExcelData(filePath) {
     const workbook = XLSX.readFile(filePath);
     const sheetName = workbook.SheetNames[0]; // Assuming data is in the first sheet
     const worksheet = workbook.Sheets[sheetName];
-    const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 }); // Use header: 1 for correct header handling
+    const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 }); 
     return data;
   } catch (error) {
     console.error("Error reading Excel file:", error);
@@ -42,7 +42,7 @@ searchForm.addEventListener('submit', (event) => {
       .then(data => {
         if (data && data.length > 0) {
           // Filter data based on the entered index
-          const filteredData = data.find(row => row[0] === index); // Assuming 'index' is the first column
+          const filteredData = data.find(row => row[0] === index); 
 
           if (filteredData) {
             resultContainer.style.display = 'block';
