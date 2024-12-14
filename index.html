@@ -1,24 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Search</title>
-  <link rel="stylesheet" href="style.css"> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Results - Search by Index</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Student Search</h1>
-    <label for="index-input">Enter or Select Index Number:</label>
-    <input type="text" id="index-input" list="available-indexes">
-    <datalist id="available-indexes"></datalist>
-    <button id="search-button">Search</button>
-  <div id="results" class="hidden">
-  <h2>Results</h2>
-  <table id="results-table"></table> 
-</div>
-  </div>
+    <h1>Student Results</h1>
+    <p>Enter your index number to view your details:</p>
 
-  <script src="script.js"></script>
+    <form id="searchForm">
+        <label for="index">Index:</label>
+        <input type="text" id="index" name="index" placeholder="e.g., 123456A">
+        <button type="submit">Search</button>
+    </form>
+
+    <div id="resultContainer" style="display: none;">
+        <h2>Student Details</h2>
+        <table id="resultsTable">
+            </table>
+        <p id="errorMessage"></p>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
