@@ -5,11 +5,11 @@ function readExcelData(filePath) {
     const workbook = XLSX.readFile(filePath);
     const sheetName = workbook.SheetNames[0]; // Assuming data is in the first sheet
     const worksheet = workbook.Sheets[sheetName];
-    const data = XLSX.utils.sheet_to_json(worksheet); 
+    const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 }); // Use header: 1 for correct header handling
     return data;
   } catch (error) {
     console.error("Error reading Excel file:", error);
-    return null; // Or handle the error differently
+    return null; 
   }
 }
 
@@ -22,11 +22,10 @@ const resultsTable = document.getElementById('resultsTable');
 const errorMessage = document.getElementById('errorMessage');
 
 searchForm.addEventListener('submit', (event) => {
-    event.preventDefault(); // Prevent default form submission
-
+    event.preventDefault(); 
     const index = document.getElementById('index').value.trim();
 
-    // Input validation: Check for 6 digits and a letter
+    // Input validation
     const indexRegex = /^[0-9]{6}[A-Z]$/;
     if (!indexRegex.test(index)) {
         errorMessage.textContent = 'Invalid index format. Please enter 6 digits followed by a letter.';
@@ -39,42 +38,42 @@ searchForm.addEventListener('submit', (event) => {
     errorMessage.textContent = '';
 
     // Fetch data from Excel file
-    const studentData = readExcelData(filePath); 
+    readExcelData(filePath)
+      .then(data => {
+        if (data && data.length > 0) {
+          // Filter data based on the entered index
+          const filteredData = data.find(row => row[0] === index); // Assuming 'index' is the first column
 
-    if (studentData && studentData.length > 0) { 
-      // Filter data based on the entered index
-      const filteredData = studentData.find(row => row.index === index); 
-
-      if (filteredData) {
-        // Display results
-        resultContainer.style.display = 'block';
-        populateTable(filteredData); 
-      } else {
-        errorMessage.textContent = 'Student with index "' + index + '" not found.';
-      }
-    } else {
-      errorMessage.textContent = 'Error loading data from Excel file.';
-    }
+          if (filteredData) {
+            resultContainer.style.display = 'block';
+            populateTable(filteredData); 
+          } else {
+            errorMessage.textContent = 'Student with index "' + index + '" not found.';
+          }
+        } else {
+          errorMessage.textContent = 'Error loading or parsing data from Excel file.';
+        }
+      })
+      .catch(error => {
+        errorMessage.textContent = 'Error loading data from Excel file: ' + error.message;
+        resultContainer.style.display = 'none';
+      });
 });
 
 function populateTable(data) {
-    // Create table header row
     const headerRow = document.createElement('tr');
-    for (const key in data) {
-        if (key !== 'index') { // Exclude index from header
-            const headerCell = document.createElement('th');
-            headerCell.textContent = key;
-            headerRow.appendChild(headerCell);
-        }
-    }
+    data.forEach((value, index) => { 
+      const headerCell = document.createElement('th');
+      headerCell.textContent = index; 
+      headerRow.appendChild(headerCell);
+    });
     resultsTable.appendChild(headerRow);
 
-    // Create data row
     const dataRow = document.createElement('tr');
-    for (const key in data) {
-        const dataCell = document.createElement('td');
-        dataCell.textContent = data[key];
-        dataRow.appendChild(dataCell);
-    }
+    data.forEach(value => {
+      const dataCell = document.createElement('td');
+      dataCell.textContent = value;
+      dataRow.appendChild(dataCell);
+    });
     resultsTable.appendChild(dataRow);
 }
