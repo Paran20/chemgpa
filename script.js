@@ -1,4 +1,4 @@
-const XLSX = require('results.xlsx'); // Assuming you've installed SheetJS
+const XLSX = require('xlsx'); // Assuming you've installed SheetJS
 
 function readExcelData(filePath) {
   try {
