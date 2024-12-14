@@ -7,6 +7,7 @@ function readExcelData(filePath) {
     const worksheet = workbook.Sheets[sheetName];
     const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 }); 
     return data;
+    console.log('data',data);
   } catch (error) {
     console.error("Error reading Excel file:", error);
     return null; 
