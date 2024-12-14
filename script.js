@@ -16,9 +16,6 @@ function readExcelData(filePath) {
 // Assuming 'results.xlsx' is in the same directory as 'script.js'
 const filePath = 'results.xlsx'; 
 
-const studentData = readExcelData(filePath);
-
-// ... rest of the code ...
 const searchForm = document.getElementById('searchForm');
 const resultContainer = document.getElementById('resultContainer');
 const resultsTable = document.getElementById('resultsTable');
@@ -41,24 +38,22 @@ searchForm.addEventListener('submit', (event) => {
     resultsTable.innerHTML = '';
     errorMessage.textContent = '';
 
-    // Simulate fetching data from results.xlsx (server-side implementation required)
-    // Replace with your actual fetching logic
-    const studentData = {
-        // Example data (replace with your actual data structure)
-        index: index,
-        name: 'John Doe',
-        'SEM 01': 85,
-        maths: 90,
-        english: 88,
-        // ... other subjects and GPA, rank
-    };
+    // Fetch data from Excel file
+    const studentData = readExcelData(filePath); 
 
-    if (studentData) {
+    if (studentData && studentData.length > 0) { 
+      // Filter data based on the entered index
+      const filteredData = studentData.find(row => row.index === index); 
+
+      if (filteredData) {
         // Display results
         resultContainer.style.display = 'block';
-        populateTable(studentData);
-    } else {
+        populateTable(filteredData); 
+      } else {
         errorMessage.textContent = 'Student with index "' + index + '" not found.';
+      }
+    } else {
+      errorMessage.textContent = 'Error loading data from Excel file.';
     }
 });
 
@@ -81,4 +76,5 @@ function populateTable(data) {
         dataCell.textContent = data[key];
         dataRow.appendChild(dataCell);
     }
-    results
+    resultsTable.appendChild(dataRow);
+}
