@@ -25,7 +25,34 @@ document.addEventListener('DOMContentLoaded', () => {
         const index = indexInput.value.trim();
         const studentData = excelData.find(student => student['Index Number'] === index);
 
-        // ... (rest of the searchData() function as before) ...
+        if (studentData) {
+          resultsDiv.classList.remove('hidden');
+
+          // Clear existing table rows
+          resultsTable.innerHTML = '';
+
+          // Create table headers
+          const headerRow = document.createElement('tr');
+          for (const key in studentData) {
+            const th = document.createElement('th');
+            th.textContent = key;
+            headerRow.appendChild(th);
+          }
+          resultsTable.appendChild(headerRow);
+
+          // Create table row for student data
+          const dataRow = document.createElement('tr');
+          for (const value of Object.values(studentData)) {
+            const td = document.createElement('td');
+            td.textContent = value;
+            dataRow.appendChild(td);
+          }
+          resultsTable.appendChild(dataRow);
+
+        } else {
+          resultsDiv.classList.add('hidden');
+          alert('No student found with the given index number.');
+        }
       }
 
       datalist.innerHTML = indexOptions.map(option => `<option value="${option}">`).join('');
@@ -35,5 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('search-button').addEventListener('click', searchData);
 
     })
-    .catch(error => console.error('Error loading Excel file:', error));
+    .catch(error => {
+      console.error('Error loading Excel file:', error);
+      alert('Error loading Excel file. Please check the file path and try again.'); 
+    });
 });
