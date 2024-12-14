@@ -2,7 +2,8 @@ const searchForm = document.getElementById('searchForm');
 const resultContainer = document.getElementById('resultContainer');
 const resultsTable = document.getElementById('resultsTable');
 const errorMessage = document.getElementById('errorMessage');
-
+// Assuming 'results.xlsx' is in the same directory as 'script.js'
+const filePath = 'results.xlsx';
 searchForm.addEventListener('submit', (event) => {
     event.preventDefault(); // Prevent default form submission
 
