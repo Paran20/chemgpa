@@ -13,9 +13,9 @@
     </header>
     
 <section id="search-section">
-    <!-- Input field for index number -->
-    <input type="number" id="index-input" placeholder="Enter Index Number..." />
-    <button onclick="searchData()">Search</button>
+  <label for="index-input">Enter Index Number:</label>
+  <input type="text" id="index-input" pattern="[0-9]+[A-Za-z]" title="Index number must be in the format 'numbers followed by a single letter'" placeholder="Enter Index Number..." />
+  <button onclick="searchData()">Search</button>
 </section>
 
 
