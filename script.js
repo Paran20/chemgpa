@@ -1,69 +1,63 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const indexInput = document.getElementById('index-input');
-  const datalist = document.getElementById('available-indexes');
-  const resultsDiv = document.getElementById('results');
-  const resultsTable = document.getElementById('results-table');
+const searchForm = document.getElementById('searchForm');
+const resultContainer = document.getElementById('resultContainer');
+const resultsTable = document.getElementById('resultsTable');
+const errorMessage = document.getElementById('errorMessage');
 
-  fetch('results.xlsx')
-    .then(response => response.arrayBuffer())
-    .then(data => {
-      const workbook = XLSX.read(data, { type: 'array' });
-      const sheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[sheetName];
-      const excelData = XLSX.utils.sheet_to_json(worksheet);
+searchForm.addEventListener('submit', (event) => {
+    event.preventDefault(); // Prevent default form submission
 
-      const indexOptions = excelData.map(student => student['Index Number']);
+    const index = document.getElementById('index').value.trim();
 
-      function updateSuggestions() {
-        const typedIndex = indexInput.value.toUpperCase();
-        datalist.innerHTML = indexOptions
-          .filter(option => option.toUpperCase().startsWith(typedIndex))
-          .map(option => `<option value="${option}">`).join('');
-      }
+    // Input validation: Check for 6 digits and a letter
+    const indexRegex = /^[0-9]{6}[A-Z]$/;
+    if (!indexRegex.test(index)) {
+        errorMessage.textContent = 'Invalid index format. Please enter 6 digits followed by a letter.';
+        resultContainer.style.display = 'none';
+        return;
+    }
 
-      function searchData() {
-        const index = indexInput.value.trim();
-        const studentData = excelData.find(student => student['Index Number'] === index);
+    // Clear previous results and error message
+    resultsTable.innerHTML = '';
+    errorMessage.textContent = '';
 
-        if (studentData) {
-          resultsDiv.classList.remove('hidden');
+    // Simulate fetching data from results.xlsx (server-side implementation required)
+    // Replace with your actual fetching logic
+    const studentData = {
+        // Example data (replace with your actual data structure)
+        index: index,
+        name: 'John Doe',
+        'SEM 01': 85,
+        maths: 90,
+        english: 88,
+        // ... other subjects and GPA, rank
+    };
 
-          // Clear existing table rows
-          resultsTable.innerHTML = '';
-
-          // Create table headers
-          const headerRow = document.createElement('tr');
-          for (const key in studentData) {
-            const th = document.createElement('th');
-            th.textContent = key;
-            headerRow.appendChild(th);
-          }
-          resultsTable.appendChild(headerRow);
-
-          // Create table row for student data
-          const dataRow = document.createElement('tr');
-          for (const value of Object.values(studentData)) {
-            const td = document.createElement('td');
-            td.textContent = value;
-            dataRow.appendChild(td);
-          }
-          resultsTable.appendChild(dataRow);
-
-        } else {
-          resultsDiv.classList.add('hidden');
-          alert('No student found with the given index number.');
-        }
-      }
-
-      datalist.innerHTML = indexOptions.map(option => `<option value="${option}">`).join('');
-      indexInput.value = indexOptions[0]; // Set default selection
-
-      indexInput.addEventListener('input', updateSuggestions);
-      document.getElementById('search-button').addEventListener('click', searchData);
-
-    })
-    .catch(error => {
-      console.error('Error loading Excel file:', error);
-      alert('Error loading Excel file. Please check the file path and try again.'); 
-    });
+    if (studentData) {
+        // Display results
+        resultContainer.style.display = 'block';
+        populateTable(studentData);
+    } else {
+        errorMessage.textContent = 'Student with index "' + index + '" not found.';
+    }
 });
+
+function populateTable(data) {
+    // Create table header row
+    const headerRow = document.createElement('tr');
+    for (const key in data) {
+        if (key !== 'index') { // Exclude index from header
+            const headerCell = document.createElement('th');
+            headerCell.textContent = key;
+            headerRow.appendChild(headerCell);
+        }
+    }
+    resultsTable.appendChild(headerRow);
+
+    // Create data row
+    const dataRow = document.createElement('tr');
+    for (const key in data) {
+        const dataCell = document.createElement('td');
+        dataCell.textContent = data[key];
+        dataRow.appendChild(dataCell);
+    }
+    results
