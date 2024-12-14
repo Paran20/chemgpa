@@ -1,6 +1,24 @@
-// Assuming 'results.xlsx' is in the same directory as 'script.js'
-const filePath = 'results.xlsx';
+const XLSX = require('xlsx'); // Assuming you've installed SheetJS
 
+function readExcelData(filePath) {
+  try {
+    const workbook = XLSX.readFile(filePath);
+    const sheetName = workbook.SheetNames[0]; // Assuming data is in the first sheet
+    const worksheet = workbook.Sheets[sheetName];
+    const data = XLSX.utils.sheet_to_json(worksheet); 
+    return data;
+  } catch (error) {
+    console.error("Error reading Excel file:", error);
+    return null; // Or handle the error differently
+  }
+}
+
+// Assuming 'results.xlsx' is in the same directory as 'script.js'
+const filePath = 'results.xlsx'; 
+
+const studentData = readExcelData(filePath);
+
+// ... rest of the code ...
 const searchForm = document.getElementById('searchForm');
 const resultContainer = document.getElementById('resultContainer');
 const resultsTable = document.getElementById('resultsTable');
