@@ -1,39 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index Number Search</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Search</title>
+  <link rel="stylesheet" href="style.css"> 
 </head>
 <body>
-    <header>
-        <h1>Search Data by Index Number</h1>
-    </header>
-    
-<section id="search-section">
-  <label for="index-input">Enter Index Number:</label>
-  <input type="text" id="index-input" pattern="[0-9]+[A-Za-z]" title="Index number must be in the format 'numbers followed by a single letter'" placeholder="Enter Index Number..." />
-  <button onclick="searchData()">Search</button>
-</section>
+  <div class="container">
+    <h1>Student Search</h1>
+    <label for="index-input">Enter or Select Index Number:</label>
+    <input type="text" id="index-input" list="available-indexes">
+    <datalist id="available-indexes"></datalist>
+    <button id="search-button">Search</button>
+    <div id="results" class="hidden">
+      <h2>Results</h2>
+      <p>GPA: <span id="result-gpa"></span></p>
+      <p>Rank: <span id="result-rank"></span></p>
+    </div>
+  </div>
 
-
-    <section id="result-section">
-        <table id="results">
-            <thead>
-                <tr id="header-row">
-                    <!-- Dynamic header will be added here -->
-                </tr>
-            </thead>
-            <tbody>
-                <tr id="data-row">
-                    <!-- Dynamic data will be added here -->
-                </tr>
-            </tbody>
-        </table>
-    </section>
-
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
